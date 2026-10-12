@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ôn GK1 Tin học 11 · Bài 4–5–6</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f4e8;--card:#fff;--ink:#1b2340;--mut:#6a6f85;--hl:#ffd84d;--ok:#12805c;--okb:#d8f3e6;--no:#c8321f;--nob:#fde3de;box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12162a;--card:#1c2240;--ink:#f1eee4;--mut:#a3a8c0;--ok:#4fd8a4;--okb:#14382f;--no:#ff8a78;--nob:#40201d}}
+:root[data-theme="dark"]{--bg:#12162a;--card:#1c2240;--ink:#f1eee4;--mut:#a3a8c0;--ok:#4fd8a4;--okb:#14382f;--no:#ff8a78;--nob:#40201d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Lexend,system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:680px;margin:0 auto;padding:22px 16px 56px}
+h1{font-weight:800;font-size:clamp(26px,6vw,38px);line-height:1.12;margin:0 0 4px;letter-spacing:-.02em}
+h1 mark{background:var(--hl);color:#1b2340;padding:0 .18em;border-radius:6px}
+.sub{color:var(--mut);margin:0 0 16px;font-size:14px}
+button{font:inherit;color:inherit;cursor:pointer}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tab{border:2px solid var(--ink);background:transparent;border-radius:99px;padding:5px 14px;font-weight:600;font-size:14px;transition:background .2s,color .2s}
+.tab.on{background:var(--ink);color:var(--bg)}
+.pr{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;margin-bottom:10px}
+.tr{flex:1;height:10px;border:2px solid var(--ink);border-radius:9px;overflow:hidden}
+.tr i{display:block;height:100%;background:var(--ok);transition:width .4s}
+.g{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.g button{width:34px;height:34px;border:2px solid var(--ink);border-radius:9px;background:transparent;font-size:13px;font-weight:600;padding:0}
+.g .ok{background:var(--ok);border-color:var(--ok);color:#fff}.g .no{background:var(--no);border-color:var(--no);color:#fff}
+.g .cur{box-shadow:0 0 0 3px var(--hl)}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:20px 18px;box-shadow:5px 5px 0 var(--ink)}
+.num{display:inline-block;background:var(--hl);color:#1b2340;font-weight:800;font-size:12px;padding:2px 10px;border-radius:99px;margin-right:6px}
+.tag{font-size:12px;color:var(--mut);font-weight:600}
+h2{font-size:18px;font-weight:600;line-height:1.45;margin:10px 0 14px}
+.o{display:flex;gap:12px;width:100%;text-align:left;background:transparent;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;margin-top:9px;transition:transform .15s,background .25s,border-color .25s}
+.o:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--ink)}
+.o b,.r p b{flex:none}.o b{width:26px;height:26px;border-radius:7px;background:var(--hl);color:#1b2340;display:grid;place-items:center;font-size:13px}
+.o:disabled{cursor:default}.right{background:var(--okb)!important;border-color:var(--ok)!important;animation:pop .35s}
+.wrong{background:var(--nob)!important;border-color:var(--no)!important;animation:sk .35s}.dim{opacity:.5}
+.r{display:flex;gap:10px;align-items:center;justify-content:space-between;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;margin-top:9px;transition:background .25s,border-color .25s}
+.r.ok{border-color:var(--ok)}.r.no{border-color:var(--no)}.r p{margin:0;font-size:15px}
+.tf{display:flex;gap:6px;flex:none}.tf button{border:2px solid var(--ink);background:transparent;border-radius:9px;padding:4px 10px;font-weight:600;font-size:13px}
+.tf button:disabled{cursor:default}
+.fb{margin-top:14px;font-weight:600;font-size:14px;min-height:21px}.fb.ok{color:var(--ok)}.fb.no{color:var(--no)}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.btn{border:2px solid var(--ink);background:var(--card);border-radius:12px;padding:8px 16px;font-weight:600;box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}.btn:disabled{opacity:.4;box-shadow:none}
+.res{margin-top:18px;text-align:center;background:var(--hl);color:#1b2340;border:2px solid var(--ink);border-radius:18px;padding:20px;box-shadow:5px 5px 0 var(--ink)}
+.res big{display:block;font-size:48px;font-weight:800}.res .btn{margin:10px 6px 0;color:#1b2340}
+@keyframes pop{50%{transform:scale(1.02)}}@keyframes sk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:420px){.r{flex-direction:column;align-items:stretch}.tf{justify-content:flex-end}}
+</style></head><body><div class="w"><h1>Ôn GK1 <mark>Tin học 11</mark></h1>
+<p class="sub">Kết nối tri thức · Bài 4, 5, 6. Chạm đáp án là biết đúng/sai ngay. Mỗi lần vào đề được xáo mới.</p>
+<div id="app"></div></div>
+<script>
+var B4=`CPU là từ viết tắt của cụm từ tiếng Anh nào sau đây?|Central Processing Unit|Control Processing Unit|Central Power Unit|Computer Processing Unit
+Hai thành phần cơ bản nhất cấu tạo nên bộ vi xử lý trung tâm (CPU) là gì?|ALU (Khối tính toán) và CU (Khối điều khiển)|RAM và ROM|HDD và SSD|Mainboard và VGA
+Đặc điểm nổi bật của bộ nhớ RAM (Random Access Memory) là gì?|Dữ liệu sẽ bị mất khi tắt máy hoặc mất điện (bộ nhớ khả biến)|Dữ liệu không bị mất khi mất điện|Tốc độ truy xuất chậm hơn ổ cứng|Chỉ cho phép đọc dữ liệu, không cho phép ghi
+Bộ nhớ ROM (Read Only Memory) có chức năng chính là gì?|Chứa các chương trình hệ thống.|Lưu trữ dữ liệu tạm thời khi các ứng dụng đang chạy|Mở rộng dung lượng lưu trữ cho ổ cứng|Quản lý việc kết nối mạng
+Chức năng chính của Bo mạch chủ (Mainboard/Motherboard) là gì?|Làm nền tảng liên kết, kết nối tất cả các linh kiện máy tính thành một hệ thống thống nhất|Cung cấp nguồn điện cho toàn bộ hệ thống|Xử lý các phép toán logic phức tạp|Lưu trữ vĩnh viễn mọi dữ liệu người dùng
+Tốc độ xung nhịp (Clock speed) của CPU thường được đo bằng đơn vị nào hiện nay?|Gigahertz (GHz)|Megabyte (MB)|Megabit trên giây (Mbps)|Vòng trên phút (RPM)
+So với ổ đĩa cứng truyền thống (HDD), ổ đĩa thể rắn (SSD) có ưu điểm vượt trội nào?|Tốc độ đọc/ghi dữ liệu nhanh hơn rất nhiều|Giá thành rẻ hơn với cùng mức dung lượng|Dùng đĩa từ tính nên ít bị hỏng hóc|Khôi phục dữ liệu dễ dàng hơn khi bị hỏng vật lý
+Khối điều khiển (CU - Control Unit) trong CPU có nhiệm vụ gì?|Điều phối, chỉ đạo mọi hoạt động của các bộ phận khác trong máy tính|Thực hiện các phép toán cộng, trừ, nhân, chia|Lưu trữ toàn bộ hệ điều hành|Cung cấp tín hiệu hình ảnh ra màn hình
+Khối tính toán số học và logic (ALU) trong CPU làm nhiệm vụ gì?|Thực hiện các phép tính số học và các phép toán logic|Điều khiển thiết bị ngoại vi|Lưu trữ dữ liệu lâu dài|Cung cấp nguồn điện tĩnh
+Bộ nhớ trong của máy tính bao gồm những thành phần nào?|RAM và ROM|Ổ cứng HDD và SSD|USB và Thẻ nhớ|RAM và CPU
+Thành phần nào được ví như "bộ não" của máy tính?|Bộ vi xử lý trung tâm (CPU)|Bo mạch chủ (Mainboard)|Bộ nhớ RAM|Bộ nguồn (Power Supply)
+Bộ nhớ đệm (Cache) của CPU có tác dụng chính là gì?|Giảm sự chênh lệch tốc độ giữa CPU và bộ nhớ RAM, giúp CPU xử lý nhanh hơn|Làm mát cho CPU|Thay thế hoàn toàn cho ổ cứng|Tăng độ phân giải cho màn hình
+Thiết bị nào sau đây KHÔNG thuộc nhóm bộ nhớ ngoài (bộ nhớ thứ cấp)?|Bộ nhớ ROM|Ổ cứng SSD|Ổ cứng di động (External HDD)|Thẻ nhớ (Memory card)
+Card đồ họa (VGA) trong máy tính đảm nhiệm chức năng gì?|Xử lý và xuất tín hiệu hình ảnh ra màn hình|Xử lý âm thanh chất lượng cao|Quản lý việc kết nối Wi-Fi|Cung cấp nguồn cho CPU
+Ổ đĩa cứng HDD (Hard Disk Drive) lưu trữ dữ liệu dựa trên công nghệ nào?|Đĩa từ tính|Chip nhớ Flash|Đĩa quang học|Băng từ
+Linh kiện nào làm nhiệm vụ chuyển đổi điện áp xoay chiều (AC) thành điện áp một chiều (DC) để cung cấp năng lượng cho các linh kiện trong máy tính?|Bộ nguồn (Power Supply Unit - PSU)|CPU|Mainboard|RAM
+Khe cắm PCIe trên bo mạch chủ thường được sử dụng để gắn linh kiện nào?|Card đồ họa rời (VGA)|CPU|Nguồn điện|Chuột máy tính
+Hiệu năng (tốc độ xử lý) tổng thể của máy tính phụ thuộc nhiều nhất vào bộ phận nào?|CPU, dung lượng RAM và tốc độ của ổ cứng (SSD/HDD)|Màn hình lớn hay nhỏ|Bàn phím cơ hay bàn phím thường|Card mạng dây hay card Wi-Fi
+T:Khi tìm hiểu về bộ nhớ trong của máy tính, hãy xác định tính Đúng/Sai của các nhận định sau:|Bộ nhớ RAM đóng vai trò lưu trữ tạm thời dữ liệu và các chỉ thị để CPU xử lý.~1|Dữ liệu trong bộ nhớ ROM sẽ bị xóa sạch khi người dùng tắt máy tính.~0|Dung lượng của bộ nhớ RAM trên máy tính cá nhân hiện nay thường lớn hơn rất nhiều so với dung lượng của bộ nhớ ROM.~1|ROM là từ viết tắt của Random Only Memory.~0
+T:Đánh giá các phát biểu sau đây về bộ vi xử lý (CPU) và các thiết bị lưu trữ ngoài:|Khối lượng tính toán và tốc độ xử lý của hệ thống phần lớn do CPU quyết định.~1|Ổ cứng SSD sử dụng các đĩa quay bằng từ tính để lưu trữ thông tin, giúp giảm chi phí sản xuất.~0|Khối điều khiển (CU) trong CPU làm nhiệm vụ tính toán các phép toán số học như cộng, trừ, nhân, chia.~0|Bộ nhớ đệm (Cache) được tích hợp ngay bên trong CPU nhằm tăng tốc độ truy xuất dữ liệu thay vì phải đọc trực tiếp từ RAM.~1`;
+var B5=`Cổng kết nối nào sau đây thường được sử dụng để truyền cả âm thanh và hình ảnh chất lượng cao từ máy tính lên màn hình hoặc máy chiếu?|Cổng HDMI|Cổng VGA|Cổng USB 2.0|Cổng LAN
+Thiết bị nào sau đây KHÔNG phải là thiết bị số?|Đồng hồ cơ học|Máy tính xách tay|Điện thoại thông minh|Máy ảnh kĩ thuật số
+Kết nối máy tính với điện thoại thông minh qua cáp USB có thể thực hiện chức năng nào sau đây?|Sạc pin và truyền dữ liệu hai chiều|Chỉ sạc pin cho điện thoại|Chỉ truyền dữ liệu từ điện thoại sang máy tính|Chỉ truyền hình ảnh từ máy tính sang điện thoại
+Chuẩn kết nối không dây phổ biến dùng để kết nối chuột, bàn phím không dây hoặc tai nghe với máy tính trong phạm vi ngắn là gì?|Bluetooth|Wi-Fi|Hồng ngoại|Mạng LAN
+Để máy tính có thể kết nối Internet qua mạng không dây, thiết bị nào đóng vai trò trạm phát sóng mạng không dây cho các thiết bị kết nối vào?|Bộ định tuyến (Router) Wi-Fi / Access Point|Chuột không dây|Máy in|Loa Bluetooth
+Cổng VGA trên máy tính chủ yếu dùng để truyền tải tín hiệu gì?|Truyền tín hiệu hình ảnh (Video) analog|Truyền dữ liệu văn bản|Truyền âm thanh kỹ thuật số|Kết nối mạng
+Quá trình thiết lập kết nối lần đầu giữa hai thiết bị qua Bluetooth thường được gọi là gì?|Ghép đôi (Pairing)|Khởi động (Booting)|Định tuyến (Routing)|Sạc pin (Charging)
+So với chuẩn USB 2.0, chuẩn kết nối USB 3.0 có ưu điểm gì nổi bật?|Tốc độ truyền dữ liệu nhanh hơn đáng kể|Thiết kế nhỏ gọn hơn rất nhiều|Chỉ dùng cho các thiết bị di động|Yêu cầu nguồn điện lớn hơn để hoạt động
+Khi cắm ổ cứng di động vào cổng USB của máy tính, hệ điều hành thường sẽ phản hồi như thế nào?|Nhận diện, thiết lập tự động và hiển thị như một ổ đĩa lưu trữ ngoài|Yêu cầu khởi động lại máy tính mới nhận diện được|Ổ cứng sẽ tự động định dạng (format) lại từ đầu|Máy tính không thể nhận diện nếu không kết nối Internet
+Ưu điểm nổi bật nhất của kết nối không dây so với kết nối có dây là gì?|Tính di động, tiện lợi và không bị vướng víu bởi dây cáp|Tốc độ truyền tải luôn nhanh và ổn định hơn|Tính bảo mật dữ liệu tuyệt đối|Chi phí lắp đặt luôn rẻ hơn
+Cổng giao tiếp mạng LAN trên máy tính thường sử dụng loại đầu nối (connector) tiêu chuẩn nào?|RJ45|HDMI|USB Type-C|VGA
+Khi muốn in một tài liệu từ máy tính ra máy in, ta có thể kết nối máy tính với máy in thông qua phương thức nào?|Tất cả các phương án trên đều có thể tùy thuộc loại máy in|Qua cáp USB|Qua mạng LAN|Qua Wi-Fi
+Cổng USB Type-C có đặc điểm thiết kế cơ học nào mang lại sự tiện dụng cho người dùng?|Thiết kế đối xứng, cắm được hai chiều (không phân biệt mặt trên/dưới)|Chỉ dùng để truyền tải âm thanh|Có kích thước lớn hơn so với USB Type-A|Hình tròn, dễ dàng xoay vặn
+Để kết nối máy tính xách tay với loa ngoài thông thường, ta thường sử dụng cổng nào?|Cổng Audio 3.5mm (hoặc qua Bluetooth)|Cổng VGA|Cổng mạng LAN|Cổng cấp nguồn
+Khi kết nối máy tính công cộng với thiết bị số cá nhân để truyền dữ liệu, nguy cơ lớn nhất có thể gặp phải là gì?|Lây nhiễm phần mềm độc hại (virus, mã độc) hoặc bị đánh cắp dữ liệu|Thiết bị sẽ bị nóng lên nhanh chóng|Máy tính sẽ tự động tắt nguồn|Làm giảm tuổi thọ pin của thiết bị cá nhân
+Khi cần trình chiếu trong lớp học, các loại cáp kết nối từ máy tính tới máy chiếu phổ biến nhất hiện nay là gì?|Cáp VGA và cáp HDMI|Cáp nguồn và cáp âm thanh|Cáp mạng LAN|Cáp quang
+Thông số nào sau đây quyết định đến mức độ sắc nét của hình ảnh khi kết nối máy tính với màn hình ngoài?|Độ phân giải (Resolution) hỗ trợ tối đa|Tốc độ kết nối mạng|Dung lượng bộ nhớ RAM của máy tính|Chuẩn kết nối Wi-Fi
+Tính năng 'cắm nóng' (Hot swap) thường thấy ở chuẩn kết nối USB mang lại lợi ích gì?|Cho phép kết nối và ngắt thiết bị khi máy tính đang hoạt động mà không cần tắt máy|Thiết bị chỉ kết nối được khi máy tính đã nóng lên tới mức nhiệt nhất định|Đảm bảo cổng kết nối không bao giờ bị hỏng|Tăng điện áp sạc cho thiết bị ngoại vi
+T:Khi kết nối máy tính với điện thoại thông minh (smartphone) thông qua cáp kết nối USB, hãy xác định tính Đúng/Sai của các nhận định sau:|Máy tính có thể cung cấp nguồn điện để sạc pin cho điện thoại thông minh.~1|Khi đã kết nối cáp USB, chỉ có thể truyền dữ liệu một chiều từ máy tính sang điện thoại.~0|Người dùng có thể chia sẻ kết nối Internet từ điện thoại cho máy tính thông qua cáp USB (USB Tethering).~1|Việc kết nối qua cáp USB không yêu cầu điện thoại phải xác nhận quyền truy cập dữ liệu (Cho phép/Từ chối), máy tính luôn tự động lấy được mọi dữ liệu.~0
+T:Đánh giá các nhận định sau về các cổng kết nối tiêu chuẩn trên máy tính và thiết bị số hiện nay:|Cổng HDMI có khả năng truyền đồng thời cả tín hiệu hình ảnh và tín hiệu âm thanh kỹ thuật số với chất lượng cao.~1|Cổng VGA là chuẩn kết nối mới nhất, có khả năng truyền hình ảnh 4K và truyền kèm cả âm thanh tốt hơn HDMI.~0|Cổng USB Type-C hỗ trợ đa chức năng, có thể được dùng để truyền dữ liệu, xuất hình ảnh, và thậm chí cấp nguồn sạc.~1|Mọi máy tính xách tay siêu mỏng hiện nay bắt buộc phải trang bị cổng kết nối mạng LAN (RJ45) truyền thống.~0`;
+var B6=`Lưu trữ trực tuyến (Lưu trữ đám mây) là gì?|Lưu trữ dữ liệu trên các máy chủ trên Internet|Lưu trữ dữ liệu trên đĩa CD/DVD|Lưu trữ dữ liệu trên ổ cứng ngoài của máy tính|Lưu trữ dữ liệu trên USB
+Dịch vụ nào sau đây KHÔNG phải là dịch vụ lưu trữ trực tuyến?|Microsoft Word|Google Drive|Microsoft OneDrive|Dropbox
+Ưu điểm nổi bật nhất của việc lưu trữ dữ liệu trực tuyến là gì?|Truy cập dữ liệu mọi lúc, mọi nơi chỉ cần có kết nối Internet|Không bao giờ bị lộ dữ liệu cá nhân|Dung lượng lưu trữ luôn là vô hạn và miễn phí|Tốc độ tải dữ liệu luôn nhanh hơn lưu trữ trên ổ cứng nội bộ
+Hạn chế lớn nhất của việc sử dụng dịch vụ lưu trữ đám mây là gì?|Phụ thuộc hoàn toàn vào kết nối Internet|Rất khó sử dụng với người mới bắt đầu|Chỉ hỗ trợ lưu trữ tệp văn bản|Tốn nhiều dung lượng ổ cứng của máy tính
+OneDrive là dịch vụ lưu trữ đám mây được phát triển bởi công ty nào?|Microsoft|Google|Apple|Amazon
+Khi chia sẻ một tệp tin trên Google Drive, quyền "Người xem" (Viewer) có ý nghĩa gì?|Người nhận chỉ có thể xem, tải xuống, không thể chỉnh sửa|Người nhận có thể xem và chỉnh sửa nội dung tệp|Người nhận có thể xóa tệp đó khỏi Drive của bạn|Người nhận có thể cấp quyền cho người khác
+Tính năng đồng bộ hóa (Synchronization) trong dịch vụ lưu trữ trực tuyến có tác dụng gì?|Giúp các tệp dữ liệu giống nhau trên mọi thiết bị khi đăng nhập cùng một tài khoản|Tự động xóa các tệp cũ sau một thời gian|Biến điện thoại thành máy chủ web|Tăng tốc độ đường truyền mạng
+Để tải một tệp tin từ máy tính cá nhân lên Google Drive, ta sử dụng tùy chọn nào?|Tải tệp lên (File upload)|Tải xuống (Download)|Chia sẻ (Share)|Mở bằng (Open with)
+Khi gửi một tệp tin có dung lượng rất lớn qua email mà vượt quá giới hạn đính kèm, giải pháp tốt nhất là gì?|Tải tệp lên Google Drive/OneDrive rồi gửi đường liên kết (link) chia sẻ qua email|Chia nhỏ tệp thành hàng chục email khác nhau|Nén tệp nhiều lần|Chuyển sang dùng đĩa CD để gửi thư tay
+Chia sẻ tệp tin hoặc thư mục trên mạng trực tuyến đem lại lợi ích chính nào?|Tạo môi trường cộng tác, giúp nhiều người cùng làm việc và chia sẻ tài nguyên dễ dàng|Làm giảm dung lượng của tệp tin gốc|Tự động mã hóa tệp tin ngăn chặn hacker|Chuyển đổi định dạng tệp sang PDF
+T:Đánh giá các phát biểu sau về dịch vụ lưu trữ trực tuyến (Google Drive, OneDrive, Dropbox...):|Người dùng luôn bắt buộc phải trả phí thì mới có thể sử dụng bất kỳ dịch vụ lưu trữ đám mây nào.~0|Dữ liệu lưu trữ trên đám mây có thể được truy cập và đồng bộ từ nhiều thiết bị khác nhau (điện thoại, máy tính bảng, máy tính cá nhân).~1|Nếu máy tính bị hỏng ổ cứng, dữ liệu đã được đồng bộ lên đám mây vẫn an toàn và có thể khôi phục lại.~1|Các dịch vụ lưu trữ đám mây hiện nay có thể đồng bộ và truy cập dữ liệu bình thường mà không cần kết nối Internet.~0
+T:Khi thực hiện chia sẻ tệp tin và thư mục trên Google Drive cho người khác, các nhận định sau đây đúng hay sai?|Người được cấp quyền "Người chỉnh sửa" (Editor) có thể thay đổi nội dung của tệp tin.~1|Quyền "Người nhận xét" (Commenter) cho phép người nhận thay đổi và chỉnh sửa trực tiếp vào nội dung gốc của văn bản.~0|Bạn có thể tạo một đường liên kết (link) và thiết lập quyền để bất kỳ ai có liên kết đó đều có thể xem tài liệu.~1|Một tệp tin trên Google Drive chỉ có thể được chia sẻ cho tối đa một người duy nhất.~0`;
+var D=[["Bài 4","Bên trong máy tính",B4],["Bài 5","Kết nối máy tính với các thiết bị số",B5],["Bài 6","Lưu trữ và chia sẻ tệp tin trên Internet",B6]],tab=0,raws=[],it=[],ix=0,L="ABCD",app=document.getElementById("app");
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0,t=a[i];a[i]=a[j];a[j]=t}return a}
+function parse(s){return s.split("\n").map(function(l){var p=l.split("|");if(l.slice(0,2)=="T:"){return{t:p[0].slice(2),s:p.slice(1).map(function(x){var y=x.split("~");return[y[0],y[1]=="1"]})}}return{t:p[0],o:p.slice(1)}})}
+function mk(r){if(r.o){var o=r.o.map(function(x,i){return[x,i==0]}),k=o.filter(function(x){return/^Tất cả/.test(x[0])});return{r:r,t:r.t,o:sh(o.filter(function(x){return!/^Tất cả/.test(x[0])})).concat(k),p:-1}}return{r:r,t:r.t,s:sh(r.s),a:[]}}
+function st(q){if(q.o)return q.p<0?0:q.o[q.p][1]?1:2;var n=0;q.a.forEach(function(){n++});if(n<q.s.length)return 0;return q.s.every(function(s,j){return q.a[j]===s[1]})?1:2}
+function start(rs,t){if(t!=null)tab=t;raws=rs;it=sh(rs).map(mk);ix=0;draw()}
+function pickTab(t){start(t<3?parse(D[t][2]):[].concat(parse(B4),parse(B5),parse(B6)),t)}
+function draw(){var N=it.length,ss=it.map(st),dn=ss.filter(Boolean).length,ok=ss.filter(function(x){return x==1}).length,q=it[ix],h='<div class="tabs">';
+D.concat([["Tất cả","Ôn tổng hợp cả 3 bài"]]).forEach(function(d,t){h+='<button class="tab'+(t==tab?' on':'')+'" data-t="'+t+'">'+d[0]+'</button>'});
+h+='</div><p class="sub" style="margin-bottom:10px">'+D.concat([["","Ôn tổng hợp cả 3 bài"]])[tab][1]+'</p><div class="pr"><div class="tr"><i style="width:'+dn/N*100+'%"></i></div><span>'+ok+' đúng · '+dn+'/'+N+'</span></div><div class="g">';
+ss.forEach(function(x,i){h+='<button class="'+(x==1?'ok':x==2?'no':'')+(i==ix?' cur':'')+'" data-g="'+i+'">'+(i+1)+'</button>'});
+h+='</div><div class="card"><span class="num">Câu '+(ix+1)+'/'+N+'</span><span class="tag">'+(q.o?'Chọn 1 đáp án':'Đúng – Sai (4 ý)')+'</span><h2>'+q.t+'</h2>';var fb='';
+if(q.o){var ci=0;q.o.forEach(function(x,j){if(x[1])ci=j;var c=q.p<0?'':x[1]?' right':j==q.p?' wrong':' dim';h+='<button class="o'+c+'" data-j="'+j+'"'+(q.p<0?'':' disabled')+'><b>'+L[j]+'</b><span>'+x[0]+'</span></button>'});
+if(q.p>=0)fb=ss[ix]==1?'✓ Chính xác!':'✗ Chưa đúng. Đáp án đúng là '+L[ci]+'.'}
+else{var c2=0;q.s.forEach(function(s,j){var a=q.a[j],d=a!=null;if(d&&a===s[1])c2++;var f=function(v){return!d?'':v==s[1]?'right':a===v?'wrong':'dim'};
+h+='<div class="r'+(d?a===s[1]?' ok':' no':'')+'"><p><b>'+"abcd"[j]+')</b> '+s[0]+'</p><div class="tf"><button class="'+f(true)+'" data-j="'+j+'" data-v="1"'+(d?' disabled':'')+'>Đúng</button><button class="'+f(false)+'" data-j="'+j+'" data-v="0"'+(d?' disabled':'')+'>Sai</button></div></div>'});
+if(ss[ix])fb='Đúng '+c2+'/'+q.s.length+' ý'+(ss[ix]==1?' ✓':' ✗')}
+h+='<div class="fb '+(ss[ix]==1?'ok':ss[ix]==2?'no':'')+'">'+fb+'</div></div><div class="nav"><button class="btn" data-n="-1"'+(ix?'':' disabled')+'>← Câu trước</button><button class="btn" data-n="1"'+(ix<N-1?'':' disabled')+'>Câu tiếp →</button></div>';
+if(dn==N)h+='<div class="res"><big>'+ok+'/'+N+'</big>'+(ok==N?'Tuyệt đối! Đúng hết cả bài.':'Xem lại các ô đỏ ở trên rồi ôn lại nhé.')+'<br><button class="btn" data-re="1">Làm lại (xáo mới)</button>'+(ok<N?'<button class="btn" data-re="2">Chỉ ôn câu sai ('+(N-ok)+')</button>':'')+'</div>';
+app.innerHTML=h}
+function ans(j,v){var q=it[ix];if(q.o){if(q.p<0)q.p=j}else if(q.a[j]==null)q.a[j]=v;draw()}
+app.onclick=function(e){var b=e.target.closest("button");if(!b||b.disabled)return;var d=b.dataset;
+if(d.t!=null)pickTab(+d.t);else if(d.g!=null){ix=+d.g;draw()}else if(d.n){ix+=+d.n;draw()}
+else if(d.re)start(d.re==2?it.filter(function(q){return st(q)==2}).map(function(q){return q.r}):raws);
+else if(d.j!=null)ans(+d.j,d.v=="1")};
+document.onkeydown=function(e){var q=it[ix],k=e.key.toLowerCase(),i="abcd".indexOf(k);if(i<0)i="1234".indexOf(k);
+if(i>=0&&q.o&&i<q.o.length)ans(i);else if(k=="arrowright"&&ix<it.length-1){ix++;draw()}else if(k=="arrowleft"&&ix>0){ix--;draw()}};
+pickTab(0);
+</script></body></html>
