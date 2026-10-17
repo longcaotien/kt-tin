@@ -1,0 +1,451 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ôn tập Tin học 11</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:wght@700;800&display=swap">
+<style>
+/* Layout: cả trang đổi màu theo bài đang chọn. Hero lớn, con chip CPU là thanh tiến độ (mỗi ô = một câu), thẻ câu hỏi to, nút đáp án dày kiểu bàn phím */
+:root{
+  --bg:#EDF0F6; --surface:#FFFFFF; --opt:#F0F3F9; --opt-edge:#D3DAE8; --ink:#10131C; --ink2:#566077;
+  --field:#FFC93C; --on-field:#14110A; --field-d:#D79F00;
+  --chip:#0E1320; --cell:#2A3348;
+  --ok:#14A44D; --ok-d:#0C7A37; --bad:#E5383B; --bad-d:#B3252A; --warn:#FFC93C;
+  --display:"Bricolage Grotesque","Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+  --body:"Be Vietnam Pro","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0E14; --surface:#161B26; --opt:#202737; --opt-edge:#10141D; --ink:#EEF2F9; --ink2:#9AA6BD;
+    --chip:#05070C; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0E14; --surface:#161B26; --opt:#202737; --opt-edge:#10141D; --ink:#EEF2F9; --ink2:#9AA6BD;
+  --chip:#05070C; color-scheme:dark;
+}
+body[data-ch="4"]{--field:#0B5CFF;--on-field:#fff;--field-d:#0840B0}
+body[data-ch="5"]{--field:#F2511F;--on-field:#fff;--field-d:#B83A12}
+body[data-ch="6"]{--field:#00907A;--on-field:#fff;--field-d:#006454}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--body)}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.in{max-width:1080px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:var(--field);color:var(--on-field);transition:background .35s;padding-block:22px 40px}
+.nav0{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font:800 22px/1 var(--display);letter-spacing:-.03em}
+.theme{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:99px;background:rgba(255,255,255,.22);font-weight:600;font-size:15px}
+.body-dark .theme{background:rgba(0,0,0,.12)}
+.theme svg{width:18px;height:18px;fill:currentColor}
+.hgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:36px;align-items:center;margin-top:34px}
+h1{font:800 clamp(56px,10vw,128px)/.86 var(--display);letter-spacing:-.05em;margin:0}
+.sub{font-size:19px;max-width:30em;margin:22px 0 0;opacity:.92}
+.stats{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:28px;font-variant-numeric:tabular-nums}
+.stat b{display:block;font:800 48px/1 var(--display);letter-spacing:-.04em}
+.stat span{font-size:14.5px;font-weight:600;opacity:.85}
+.chaps{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.chap{padding:12px 20px;border-radius:99px;background:rgba(255,255,255,.2);font-weight:700;font-size:16px;transition:transform .12s,background .15s}
+.chap small{font-weight:500;opacity:.9;font-size:14px;margin-left:6px}
+.chap:hover{transform:translateY(-2px);background:rgba(255,255,255,.32)}
+.chap[aria-pressed="true"]{background:var(--on-field);color:var(--field)}
+
+/* chip */
+.chipwrap{display:flex;justify-content:center}
+.chip{position:relative;background:var(--chip);border-radius:26px;padding:30px;width:min(100%,360px);aspect-ratio:1;display:grid;place-items:center;margin:14px}
+.pin{position:absolute;background:#B9C2D6;border-radius:3px}
+.pin.t,.pin.b{width:8px;height:16px}.pin.l,.pin.r{width:16px;height:8px}
+.pin.t{top:-14px}.pin.b{bottom:-14px}.pin.l{left:-14px}.pin.r{right:-14px}
+.dot{position:absolute;left:14px;top:14px;width:10px;height:10px;border-radius:50%;background:#B9C2D6}
+.cells{display:grid;gap:4px;width:100%;align-content:center}
+.cell{aspect-ratio:1;border-radius:4px;background:var(--cell);padding:0;transition:transform .1s,background .2s}
+.cell:hover{transform:scale(1.18);background:#4A5775}
+.cell.ok{background:#3DDC84}.cell.bad{background:#FF5A5F}.cell.part{background:#FFC93C}.cell.seen{background:#8B97AD}
+.cell.cur{outline:3px solid #fff;outline-offset:1px;z-index:1;position:relative}
+.nocells{color:#8B97AD;font-size:14px;text-align:center}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding-block:26px 8px}
+.seg{display:flex;background:var(--surface);border-radius:99px;padding:5px;flex-wrap:wrap}
+.seg button{padding:9px 18px;font-weight:600;font-size:15px;border-radius:99px;transition:background .15s}
+.seg button:hover{background:var(--opt)}
+.seg button[aria-pressed="true"]{background:var(--field);color:var(--on-field)}
+.sw{display:flex;align-items:center;gap:10px;padding:6px 2px;font-weight:600;font-size:15px}
+.sw i{width:46px;height:26px;border-radius:99px;background:var(--opt-edge);position:relative;flex:none;transition:background .15s}
+.sw i::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .18s}
+.sw[aria-pressed="true"] i{background:var(--field)}
+.sw[aria-pressed="true"] i::after{transform:translateX(20px)}
+.btn{background:var(--surface);padding:11px 20px;border-radius:99px;font-weight:700;font-size:15px;border-bottom:3px solid var(--opt-edge);transition:transform .1s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(1px)}
+.btn.warn[aria-pressed="true"]{background:var(--bad);color:#fff;border-color:var(--bad-d)}
+.btn.primary{background:var(--field);color:var(--on-field);border-color:var(--field-d);padding:14px 26px;font-size:17px}
+.spacer{flex:1}
+
+/* stage */
+.stage{display:flex;flex-direction:column;gap:18px;padding-bottom:30px}
+.list{display:flex;flex-direction:column;gap:22px}
+.card{background:var(--surface);border-radius:30px;padding:clamp(20px,4.5vw,44px);display:flex;flex-direction:column;gap:24px;scroll-margin-top:16px}
+.card.enter{animation:rise .32s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.chead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.num{font:800 clamp(40px,7vw,64px)/.9 var(--display);letter-spacing:-.04em;color:var(--field)}
+.of{font:700 20px/1 var(--display);color:var(--ink2)}
+.tag{background:var(--opt);padding:6px 14px;border-radius:99px;font-size:14px;font-weight:600}
+.q{font:700 clamp(21px,3vw,30px)/1.3 var(--body);margin:0;text-wrap:pretty;letter-spacing:-.01em}
+.opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:16px;background:var(--opt);border-bottom:5px solid var(--opt-edge);border-radius:20px;padding:12px 20px 12px 12px;min-height:70px;transition:transform .12s,background .15s,border-color .15s}
+.opt .L{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--field);color:var(--on-field);font:800 22px/1 var(--display)}
+.opt .T{flex:1;min-width:0;font-size:18px;line-height:1.4;font-weight:500}
+.opt .M{flex:none;font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
+.opt .M svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:3.2}
+.card:not(.done) .opt:hover{transform:translateY(-3px);border-color:var(--field)}
+.card:not(.done) .opt:active{transform:translateY(1px);border-bottom-width:3px}
+.opt.ok{background:var(--ok);border-color:var(--ok-d);color:#fff}
+.opt.ok .L{background:#fff;color:var(--ok)}
+.opt.bad{background:var(--bad);border-color:var(--bad-d);color:#fff;animation:shake .4s}
+.opt.bad .L{background:#fff;color:var(--bad)}
+.opt.dim{opacity:.5}
+.opt.pop .L{animation:pop .4s}
+@keyframes pop{50%{transform:scale(1.3) rotate(-6deg)}}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+
+.tf{display:grid;gap:12px}
+.row{background:var(--opt);border-bottom:5px solid var(--opt-edge);border-radius:20px;padding:16px 16px 16px 20px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:center;transition:background .15s}
+.row .k{font:800 26px/1 var(--display);color:var(--field);width:26px}
+.row .s{font-size:17.5px;line-height:1.45;font-weight:500}
+.yn{display:flex;gap:10px}
+.yn button{min-width:100px;padding:13px 18px;background:var(--surface);border-bottom:4px solid var(--opt-edge);border-radius:16px;font-weight:800;text-align:center;font-size:17px;transition:transform .12s}
+.card:not(.done) .yn button:hover{transform:translateY(-2px);border-color:var(--field)}
+.row.ok{background:rgba(20,164,77,.16);border-color:var(--ok)} .row.bad{background:rgba(229,56,59,.15);border-color:var(--bad)}
+.yn button.ok{background:var(--ok);border-color:var(--ok-d);color:#fff}
+.yn button.bad{background:var(--bad);border-color:var(--bad-d);color:#fff;animation:shake .4s}
+.yn button.dim{opacity:.45}
+.verdict{font-size:14px;font-weight:700;margin-top:3px}
+.row.ok .verdict{color:var(--ok)} .row.bad .verdict{color:var(--bad)}
+
+.cfoot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;min-height:46px}
+.res{font-weight:700;font-size:18px}
+.res.ok{color:var(--ok)} .res.bad{color:var(--bad)}
+.nav{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.nav .hint{color:var(--ink2);font-size:15px;font-weight:600;margin-left:auto}
+
+.sum{background:var(--field);color:var(--on-field);border-radius:30px;padding:clamp(26px,5vw,52px);display:flex;flex-direction:column;gap:20px}
+.sum .pct{font:800 clamp(80px,18vw,180px)/.85 var(--display);letter-spacing:-.06em}
+.sum p{margin:0;font-size:19px;max-width:40em}
+.sum .acts{display:flex;gap:12px;flex-wrap:wrap}
+.sum .btn{background:var(--on-field);color:var(--field);border-color:rgba(0,0,0,.2)}
+.sum .btn.primary{background:var(--ink);color:#fff;border-color:#000}
+.wl{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.wl li{background:rgba(255,255,255,.2);border-radius:16px;padding:14px 18px;font-size:16px}
+.wl b{display:block}.wl span{opacity:.9}
+.none{background:var(--surface);border-radius:30px;padding:40px;font-size:19px;color:var(--ink2)}
+.foot{color:var(--ink2);font-size:14.5px;padding-bottom:56px;padding-top:6px}
+
+.bit{position:fixed;width:10px;height:10px;border-radius:3px;pointer-events:none;z-index:50;animation:fly .8s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  .hgrid{grid-template-columns:minmax(0,1fr);gap:26px}
+  .chip{width:min(100%,300px)}
+  .stat b{font-size:40px}
+  .row{grid-template-columns:auto minmax(0,1fr)}
+  .row .yn{grid-column:1 / -1}
+  .yn button{flex:1}
+  .nav .hint{display:none}
+  .theme span{display:none}
+  .opt .T{font-size:16.5px}
+  .opt .M span{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<header class="hero">
+  <div class="in">
+    <div class="nav0">
+      <span class="logo">tin11.ôn</span>
+      <button class="theme" data-act="theme" aria-label="Đổi giao diện sáng tối">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c0-.5 0-.9-.1-1.3A6 6 0 0 1 13.300 3.100C12.900 3 12.500 3 12 3z"/></svg><span>Sáng / Tối</span>
+      </button>
+    </div>
+    <div class="hgrid">
+      <div>
+        <h1>Ôn tập<br>Tin học 11</h1>
+        <p class="sub">Bấm một đáp án là biết đúng sai ngay. Câu hỏi và đáp án A B C D được xáo trộn mỗi lần làm lại.</p>
+        <div class="stats" id="stats" aria-live="polite"></div>
+      </div>
+      <div class="chipwrap"><div class="chip" id="chip" aria-label="Tiến độ từng câu"></div></div>
+    </div>
+    <nav class="chaps" id="chaps" aria-label="Chọn bài"></nav>
+  </div>
+</header>
+
+<div class="in">
+  <div class="controls" id="controls"></div>
+  <main class="stage" id="stage"></main>
+  <p class="foot">Phím tắt khi học từng câu: A B C D hoặc 1 2 3 4 để chọn, mũi tên trái phải để chuyển câu. Câu làm sai được lưu trên trình duyệt này để ôn lại.</p>
+</div>
+
+<script>
+const DATA = {"titles": {"4": "Bên trong máy tính", "5": "Kết nối máy tính với các thiết bị số", "6": "Lưu trữ và chia sẻ tệp tin trên internet"}, "qs": [{"ch": 4, "type": "mc", "n": 1, "q": "CPU là từ viết tắt của cụm từ tiếng Anh nào sau đây?", "o": [{"t": "Central Processing Unit", "c": true}, {"t": "Control Processing Unit", "c": false}, {"t": "Central Power Unit", "c": false}, {"t": "Computer Processing Unit", "c": false}]}, {"ch": 4, "type": "mc", "n": 2, "q": "Hai thành phần cơ bản nhất cấu tạo nên bộ vi xử lý trung tâm (CPU) là gì?", "o": [{"t": "RAM và ROM", "c": false}, {"t": "ALU (Khối tính toán) và CU (Khối điều khiển)", "c": true}, {"t": "HDD và SSD", "c": false}, {"t": "Mainboard và VGA", "c": false}]}, {"ch": 4, "type": "mc", "n": 3, "q": "Đặc điểm nổi bật của bộ nhớ RAM (Random Access Memory) là gì?", "o": [{"t": "Dữ liệu không bị mất khi mất điện", "c": false}, {"t": "Tốc độ truy xuất chậm hơn ổ cứng", "c": false}, {"t": "Dữ liệu sẽ bị mất khi tắt máy hoặc mất điện (bộ nhớ khả biến)", "c": true}, {"t": "Chỉ cho phép đọc dữ liệu, không cho phép ghi", "c": false}]}, {"ch": 4, "type": "mc", "n": 4, "q": "Bộ nhớ ROM (Read Only Memory) có chức năng chính là gì?", "o": [{"t": "Lưu trữ dữ liệu tạm thời khi các ứng dụng đang chạy", "c": false}, {"t": "Chứa các chương trình hệ thống .", "c": true}, {"t": "Mở rộng dung lượng lưu trữ cho ổ cứng", "c": false}, {"t": "Quản lý việc kết nối mạng", "c": false}]}, {"ch": 4, "type": "mc", "n": 5, "q": "Chức năng chính của Bo mạch chủ (Mainboard/Motherboard) là gì?", "o": [{"t": "Cung cấp nguồn điện cho toàn bộ hệ thống", "c": false}, {"t": "Xử lý các phép toán logic phức tạp", "c": false}, {"t": "Làm nền tảng liên kết, kết nối tất cả các linh kiện máy tính thành một hệ thống thống nhất", "c": true}, {"t": "Lưu trữ vĩnh viễn mọi dữ liệu người dùng", "c": false}]}, {"ch": 4, "type": "mc", "n": 6, "q": "Tốc độ xung nhịp (Clock speed) của CPU thường được đo bằng đơn vị nào hiện nay?", "o": [{"t": "Megabyte (MB)", "c": false}, {"t": "Gigahertz (GHz)", "c": true}, {"t": "Megabit trên giây (Mbps)", "c": false}, {"t": "Vòng trên phút (RPM)", "c": false}]}, {"ch": 4, "type": "mc", "n": 7, "q": "So với ổ đĩa cứng truyền thống (HDD), ổ đĩa thể rắn (SSD) có ưu điểm vượt trội nào?", "o": [{"t": "Tốc độ đọc/ghi dữ liệu nhanh hơn rất nhiều", "c": true}, {"t": "Giá thành rẻ hơn với cùng mức dung lượng", "c": false}, {"t": "Dùng đĩa từ tính nên ít bị hỏng hóc", "c": false}, {"t": "Khôi phục dữ liệu dễ dàng hơn khi bị hỏng vật lý", "c": false}]}, {"ch": 4, "type": "mc", "n": 8, "q": "Khối điều khiển (CU - Control Unit) trong CPU có nhiệm vụ gì?", "o": [{"t": "Thực hiện các phép toán cộng, trừ, nhân, chia", "c": false}, {"t": "Điều phối, chỉ đạo mọi hoạt động của các bộ phận khác trong máy tính", "c": true}, {"t": "Lưu trữ toàn bộ hệ điều hành", "c": false}, {"t": "Cung cấp tín hiệu hình ảnh ra màn hình", "c": false}]}, {"ch": 4, "type": "mc", "n": 9, "q": "Khối tính toán số học và logic (ALU) trong CPU làm nhiệm vụ gì?", "o": [{"t": "Thực hiện các phép tính số học và các phép toán logic", "c": true}, {"t": "Điều khiển thiết bị ngoại vi", "c": false}, {"t": "Lưu trữ dữ liệu lâu dài", "c": false}, {"t": "Cung cấp nguồn điện tĩnh", "c": false}]}, {"ch": 4, "type": "mc", "n": 10, "q": "Bộ nhớ trong của máy tính bao gồm những thành phần nào?", "o": [{"t": "RAM và ROM", "c": true}, {"t": "Ổ cứng HDD và SSD", "c": false}, {"t": "USB và Thẻ nhớ", "c": false}, {"t": "RAM và CPU", "c": false}]}, {"ch": 4, "type": "mc", "n": 11, "q": "Thành phần nào được ví như \"bộ não\" của máy tính?", "o": [{"t": "Bo mạch chủ (Mainboard)", "c": false}, {"t": "Bộ nhớ RAM", "c": false}, {"t": "Bộ vi xử lý trung tâm (CPU)", "c": true}, {"t": "Bộ nguồn (Power Supply)", "c": false}]}, {"ch": 4, "type": "mc", "n": 12, "q": "Bộ nhớ đệm (Cache) của CPU có tác dụng chính là gì?", "o": [{"t": "Làm mát cho CPU", "c": false}, {"t": "Giảm sự chênh lệch tốc độ giữa CPU và bộ nhớ RAM, giúp CPU xử lý nhanh hơn", "c": true}, {"t": "Thay thế hoàn toàn cho ổ cứng", "c": false}, {"t": "Tăng độ phân giải cho màn hình", "c": false}]}, {"ch": 4, "type": "mc", "n": 13, "q": "Thiết bị nào sau đây KHÔNG thuộc nhóm bộ nhớ ngoài (bộ nhớ thứ cấp)?", "o": [{"t": "Ổ cứng SSD", "c": false}, {"t": "Ổ cứng di động (External HDD)", "c": false}, {"t": "Thẻ nhớ (Memory card)", "c": false}, {"t": "Bộ nhớ ROM", "c": true}]}, {"ch": 4, "type": "mc", "n": 14, "q": "Card đồ họa (VGA) trong máy tính đảm nhiệm chức năng gì?", "o": [{"t": "Xử lý và xuất tín hiệu hình ảnh ra màn hình", "c": true}, {"t": "Xử lý âm thanh chất lượng cao", "c": false}, {"t": "Quản lý việc kết nối Wi-Fi", "c": false}, {"t": "Cung cấp nguồn cho CPU", "c": false}]}, {"ch": 4, "type": "mc", "n": 15, "q": "Ổ đĩa cứng HDD (Hard Disk Drive) lưu trữ dữ liệu dựa trên công nghệ nào?", "o": [{"t": "Chip nhớ Flash", "c": false}, {"t": "Đĩa quang học", "c": false}, {"t": "Đĩa từ tính", "c": true}, {"t": "Băng từ", "c": false}]}, {"ch": 4, "type": "mc", "n": 16, "q": "Linh kiện nào làm nhiệm vụ chuyển đổi điện áp xoay chiều (AC) thành điện áp một chiều (DC) để cung cấp năng lượng cho các linh kiện trong máy tính?", "o": [{"t": "CPU", "c": false}, {"t": "Bộ nguồn (Power Supply Unit - PSU)", "c": true}, {"t": "Mainboard", "c": false}, {"t": "RAM", "c": false}]}, {"ch": 4, "type": "mc", "n": 17, "q": "Khe cắm PCIe trên bo mạch chủ thường được sử dụng để gắn linh kiện nào?", "o": [{"t": "Card đồ họa rời (VGA)", "c": true}, {"t": "CPU", "c": false}, {"t": "Nguồn điện", "c": false}, {"t": "Chuột máy tính", "c": false}]}, {"ch": 4, "type": "mc", "n": 18, "q": "Hiệu năng (tốc độ xử lý) tổng thể của máy tính phụ thuộc nhiều nhất vào bộ phận nào?", "o": [{"t": "Màn hình lớn hay nhỏ", "c": false}, {"t": "CPU, dung lượng RAM và tốc độ của ổ cứng (SSD/HDD)", "c": true}, {"t": "Bàn phím cơ hay bàn phím thường", "c": false}, {"t": "Card mạng dây hay card Wi-Fi", "c": false}]}, {"ch": 4, "type": "tf", "n": 19, "q": "Khi tìm hiểu về bộ nhớ trong của máy tính, hãy xác định tính Đúng/Sai của các nhận định sau:", "o": [{"t": "Bộ nhớ RAM đóng vai trò lưu trữ tạm thời dữ liệu và các chỉ thị để CPU xử lý.", "c": true}, {"t": "Dữ liệu trong bộ nhớ ROM sẽ bị xóa sạch khi người dùng tắt máy tính.", "c": false}, {"t": "Dung lượng của bộ nhớ RAM trên máy tính cá nhân hiện nay thường lớn hơn rất nhiều so với dung lượng của bộ nhớ ROM.", "c": true}, {"t": "ROM là từ viết tắt của Random Only Memory.", "c": false}]}, {"ch": 4, "type": "tf", "n": 20, "q": "Đánh giá các phát biểu sau đây về bộ vi xử lý (CPU) và các thiết bị lưu trữ ngoài:", "o": [{"t": "Khối lượng tính toán và tốc độ xử lý của hệ thống phần lớn do CPU quyết định.", "c": true}, {"t": "Ổ cứng SSD sử dụng các đĩa quay bằng từ tính để lưu trữ thông tin, giúp giảm chi phí sản xuất.", "c": false}, {"t": "Khối điều khiển (CU) trong CPU làm nhiệm vụ tính toán các phép toán số học như cộng, trừ, nhân, chia.", "c": false}, {"t": "Bộ nhớ đệm (Cache) được tích hợp ngay bên trong CPU nhằm tăng tốc độ truy xuất dữ liệu thay vì phải đọc trực tiếp từ RAM.", "c": true}]}, {"ch": 5, "type": "mc", "n": 1, "q": "Cổng kết nối nào sau đây thường được sử dụng để truyền cả âm thanh và hình ảnh chất lượng cao từ máy tính lên màn hình hoặc máy chiếu?", "o": [{"t": "Cổng VGA", "c": false}, {"t": "Cổng HDMI", "c": true}, {"t": "Cổng USB 2.0", "c": false}, {"t": "Cổng LAN", "c": false}]}, {"ch": 5, "type": "mc", "n": 2, "q": "Thiết bị nào sau đây KHÔNG phải là thiết bị số?", "o": [{"t": "Máy tính xách tay", "c": false}, {"t": "Đồng hồ cơ học", "c": true}, {"t": "Điện thoại thông minh", "c": false}, {"t": "Máy ảnh kĩ thuật số", "c": false}]}, {"ch": 5, "type": "mc", "n": 3, "q": "Kết nối máy tính với điện thoại thông minh qua cáp USB có thể thực hiện chức năng nào sau đây?", "o": [{"t": "Chỉ sạc pin cho điện thoại", "c": false}, {"t": "Chỉ truyền dữ liệu từ điện thoại sang máy tính", "c": false}, {"t": "Sạc pin và truyền dữ liệu hai chiều", "c": true}, {"t": "Chỉ truyền hình ảnh từ máy tính sang điện thoại", "c": false}]}, {"ch": 5, "type": "mc", "n": 4, "q": "Chuẩn kết nối không dây phổ biến dùng để kết nối chuột, bàn phím không dây hoặc tai nghe với máy tính trong phạm vi ngắn là gì?", "o": [{"t": "Wi-Fi", "c": false}, {"t": "Bluetooth", "c": true}, {"t": "Hồng ngoại", "c": false}, {"t": "Mạng LAN", "c": false}]}, {"ch": 5, "type": "mc", "n": 5, "q": "Để máy tính có thể kết nối Internet qua mạng không dây, thiết bị nào đóng vai trò trạm phát sóng mạng không dây cho các thiết bị kết nối vào?", "o": [{"t": "Chuột không dây", "c": false}, {"t": "Bộ định tuyến (Router) Wi-Fi / Access Point", "c": true}, {"t": "Máy in", "c": false}, {"t": "Loa Bluetooth", "c": false}]}, {"ch": 5, "type": "mc", "n": 6, "q": "Cổng VGA trên máy tính chủ yếu dùng để truyền tải tín hiệu gì?", "o": [{"t": "Truyền dữ liệu văn bản", "c": false}, {"t": "Truyền tín hiệu hình ảnh (Video) analog", "c": true}, {"t": "Truyền âm thanh kỹ thuật số", "c": false}, {"t": "Kết nối mạng", "c": false}]}, {"ch": 5, "type": "mc", "n": 7, "q": "Quá trình thiết lập kết nối lần đầu giữa hai thiết bị qua Bluetooth thường được gọi là gì?", "o": [{"t": "Khởi động (Booting)", "c": false}, {"t": "Ghép đôi (Pairing)", "c": true}, {"t": "Định tuyến (Routing)", "c": false}, {"t": "Sạc pin (Charging)", "c": false}]}, {"ch": 5, "type": "mc", "n": 8, "q": "So với chuẩn USB 2.0, chuẩn kết nối USB 3.0 có ưu điểm gì nổi bật?", "o": [{"t": "Thiết kế nhỏ gọn hơn rất nhiều", "c": false}, {"t": "Chỉ dùng cho các thiết bị di động", "c": false}, {"t": "Tốc độ truyền dữ liệu nhanh hơn đáng kể", "c": true}, {"t": "Yêu cầu nguồn điện lớn hơn để hoạt động", "c": false}]}, {"ch": 5, "type": "mc", "n": 9, "q": "Khi cắm ổ cứng di động vào cổng USB của máy tính, hệ điều hành thường sẽ phản hồi như thế nào?", "o": [{"t": "Yêu cầu khởi động lại máy tính mới nhận diện được", "c": false}, {"t": "Nhận diện, thiết lập tự động và hiển thị như một ổ đĩa lưu trữ ngoài", "c": true}, {"t": "Ổ cứng sẽ tự động định dạng (format) lại từ đầu", "c": false}, {"t": "Máy tính không thể nhận diện nếu không kết nối Internet", "c": false}]}, {"ch": 5, "type": "mc", "n": 10, "q": "Ưu điểm nổi bật nhất của kết nối không dây so với kết nối có dây là gì?", "o": [{"t": "Tốc độ truyền tải luôn nhanh và ổn định hơn", "c": false}, {"t": "Tính bảo mật dữ liệu tuyệt đối", "c": false}, {"t": "Chi phí lắp đặt luôn rẻ hơn", "c": false}, {"t": "Tính di động, tiện lợi và không bị vướng víu bởi dây cáp", "c": true}]}, {"ch": 5, "type": "mc", "n": 11, "q": "Cổng giao tiếp mạng LAN trên máy tính thường sử dụng loại đầu nối (connector) tiêu chuẩn nào?", "o": [{"t": "RJ45", "c": true}, {"t": "HDMI", "c": false}, {"t": "USB Type-C", "c": false}, {"t": "VGA", "c": false}]}, {"ch": 5, "type": "mc", "n": 12, "q": "Khi muốn in một tài liệu từ máy tính ra máy in, ta có thể kết nối máy tính với máy in thông qua phương thức nào?", "o": [{"t": "Qua cáp USB", "c": false}, {"t": "Qua mạng LAN", "c": false}, {"t": "Qua Wi-Fi", "c": false}, {"t": "Tất cả các phương án trên đều có thể tùy thuộc loại máy in", "c": true}]}, {"ch": 5, "type": "mc", "n": 13, "q": "Cổng USB Type-C có đặc điểm thiết kế cơ học nào mang lại sự tiện dụng cho người dùng?", "o": [{"t": "Thiết kế đối xứng, cắm được hai chiều (không phân biệt mặt trên/dưới)", "c": true}, {"t": "Chỉ dùng để truyền tải âm thanh", "c": false}, {"t": "Có kích thước lớn hơn so với USB Type-A", "c": false}, {"t": "Hình tròn, dễ dàng xoay vặn", "c": false}]}, {"ch": 5, "type": "mc", "n": 14, "q": "Để kết nối máy tính xách tay với loa ngoài thông thường, ta thường sử dụng cổng nào?", "o": [{"t": "Cổng Audio 3.5mm (hoặc qua Bluetooth)", "c": true}, {"t": "Cổng VGA", "c": false}, {"t": "Cổng mạng LAN", "c": false}, {"t": "Cổng cấp nguồn", "c": false}]}, {"ch": 5, "type": "mc", "n": 15, "q": "Khi kết nối máy tính công cộng với thiết bị số cá nhân để truyền dữ liệu, nguy cơ lớn nhất có thể gặp phải là gì?", "o": [{"t": "Thiết bị sẽ bị nóng lên nhanh chóng", "c": false}, {"t": "Lây nhiễm phần mềm độc hại (virus, mã độc) hoặc bị đánh cắp dữ liệu", "c": true}, {"t": "Máy tính sẽ tự động tắt nguồn", "c": false}, {"t": "Làm giảm tuổi thọ pin của thiết bị cá nhân", "c": false}]}, {"ch": 5, "type": "mc", "n": 16, "q": "Khi cần trình chiếu trong lớp học, các loại cáp kết nối từ máy tính tới máy chiếu phổ biến nhất hiện nay là gì?", "o": [{"t": "Cáp VGA và cáp HDMI", "c": true}, {"t": "Cáp nguồn và cáp âm thanh", "c": false}, {"t": "Cáp mạng LAN", "c": false}, {"t": "Cáp quang", "c": false}]}, {"ch": 5, "type": "mc", "n": 17, "q": "Thông số nào sau đây quyết định đến mức độ sắc nét của hình ảnh khi kết nối máy tính với màn hình ngoài?", "o": [{"t": "Tốc độ kết nối mạng", "c": false}, {"t": "Độ phân giải (Resolution) hỗ trợ tối đa", "c": true}, {"t": "Dung lượng bộ nhớ RAM của máy tính", "c": false}, {"t": "Chuẩn kết nối Wi-Fi", "c": false}]}, {"ch": 5, "type": "mc", "n": 18, "q": "Tính năng 'cắm nóng' (Hot swap) thường thấy ở chuẩn kết nối USB mang lại lợi ích gì?", "o": [{"t": "Cho phép kết nối và ngắt thiết bị khi máy tính đang hoạt động mà không cần tắt máy", "c": true}, {"t": "Thiết bị chỉ kết nối được khi máy tính đã nóng lên tới mức nhiệt nhất định", "c": false}, {"t": "Đảm bảo cổng kết nối không bao giờ bị hỏng", "c": false}, {"t": "Tăng điện áp sạc cho thiết bị ngoại vi", "c": false}]}, {"ch": 5, "type": "tf", "n": 19, "q": "Khi kết nối máy tính với điện thoại thông minh (smartphone) thông qua cáp kết nối USB, hãy xác định tính Đúng/Sai của các nhận định sau:", "o": [{"t": "Máy tính có thể cung cấp nguồn điện để sạc pin cho điện thoại thông minh.", "c": true}, {"t": "Khi đã kết nối cáp USB, chỉ có thể truyền dữ liệu một chiều từ máy tính sang điện thoại.", "c": false}, {"t": "Người dùng có thể chia sẻ kết nối Internet từ điện thoại cho máy tính thông qua cáp USB (USB Tethering).", "c": true}, {"t": "Việc kết nối qua cáp USB không yêu cầu điện thoại phải xác nhận quyền truy cập dữ liệu (Cho phép/Từ chối), máy tính luôn tự động lấy được mọi dữ liệu.", "c": false}]}, {"ch": 5, "type": "tf", "n": 20, "q": "Đánh giá các nhận định sau về các cổng kết nối tiêu chuẩn trên máy tính và thiết bị số hiện nay:", "o": [{"t": "Cổng HDMI có khả năng truyền đồng thời cả tín hiệu hình ảnh và tín hiệu âm thanh kỹ thuật số với chất lượng cao.", "c": true}, {"t": "Cổng VGA là chuẩn kết nối mới nhất, có khả năng truyền hình ảnh 4K và truyền kèm cả âm thanh tốt hơn HDMI.", "c": false}, {"t": "Cổng USB Type-C hỗ trợ đa chức năng, có thể được dùng để truyền dữ liệu, xuất hình ảnh, và thậm chí cấp nguồn sạc.", "c": true}, {"t": "Mọi máy tính xách tay siêu mỏng hiện nay bắt buộc phải trang bị cổng kết nối mạng LAN (RJ45) truyền thống.", "c": false}]}, {"ch": 6, "type": "mc", "n": 1, "q": "Lưu trữ trực tuyến (Lưu trữ đám mây) là gì?", "o": [{"t": "Lưu trữ dữ liệu trên đĩa CD/DVD", "c": false}, {"t": "Lưu trữ dữ liệu trên các máy chủ trên Internet", "c": true}, {"t": "Lưu trữ dữ liệu trên ổ cứng ngoài của máy tính", "c": false}, {"t": "Lưu trữ dữ liệu trên USB", "c": false}]}, {"ch": 6, "type": "mc", "n": 2, "q": "Dịch vụ nào sau đây KHÔNG phải là dịch vụ lưu trữ trực tuyến?", "o": [{"t": "Google Drive", "c": false}, {"t": "Microsoft OneDrive", "c": false}, {"t": "Dropbox", "c": false}, {"t": "Microsoft Word", "c": true}]}, {"ch": 6, "type": "mc", "n": 3, "q": "Ưu điểm nổi bật nhất của việc lưu trữ dữ liệu trực tuyến là gì?", "o": [{"t": "Truy cập dữ liệu mọi lúc, mọi nơi chỉ cần có kết nối Internet", "c": true}, {"t": "Không bao giờ bị lộ dữ liệu cá nhân", "c": false}, {"t": "Dung lượng lưu trữ luôn là vô hạn và miễn phí", "c": false}, {"t": "Tốc độ tải dữ liệu luôn nhanh hơn lưu trữ trên ổ cứng nội bộ", "c": false}]}, {"ch": 6, "type": "mc", "n": 4, "q": "Hạn chế lớn nhất của việc sử dụng dịch vụ lưu trữ đám mây là gì?", "o": [{"t": "Phụ thuộc hoàn toàn vào kết nối Internet", "c": true}, {"t": "Rất khó sử dụng với người mới bắt đầu", "c": false}, {"t": "Chỉ hỗ trợ lưu trữ tệp văn bản", "c": false}, {"t": "Tốn nhiều dung lượng ổ cứng của máy tính", "c": false}]}, {"ch": 6, "type": "mc", "n": 5, "q": "OneDrive là dịch vụ lưu trữ đám mây được phát triển bởi công ty nào?", "o": [{"t": "Google", "c": false}, {"t": "Apple", "c": false}, {"t": "Microsoft", "c": true}, {"t": "Amazon", "c": false}]}, {"ch": 6, "type": "mc", "n": 6, "q": "Khi chia sẻ một tệp tin trên Google Drive, quyền \"Người xem\" (Viewer) có ý nghĩa gì?", "o": [{"t": "Người nhận có thể xem và chỉnh sửa nội dung tệp", "c": false}, {"t": "Người nhận chỉ có thể xem, tải xuống, không thể chỉnh sửa", "c": true}, {"t": "Người nhận có thể xóa tệp đó khỏi Drive của bạn", "c": false}, {"t": "Người nhận có thể cấp quyền cho người khác", "c": false}]}, {"ch": 6, "type": "mc", "n": 7, "q": "Tính năng đồng bộ hóa (Synchronization) trong dịch vụ lưu trữ trực tuyến có tác dụng gì?", "o": [{"t": "Giúp các tệp dữ liệu giống nhau trên mọi thiết bị khi đăng nhập cùng một tài khoản", "c": true}, {"t": "Tự động xóa các tệp cũ sau một thời gian", "c": false}, {"t": "Biến điện thoại thành máy chủ web", "c": false}, {"t": "Tăng tốc độ đường truyền mạng", "c": false}]}, {"ch": 6, "type": "mc", "n": 8, "q": "Để tải một tệp tin từ máy tính cá nhân lên Google Drive, ta sử dụng tùy chọn nào?", "o": [{"t": "Tải xuống (Download)", "c": false}, {"t": "Tải tệp lên (File upload)", "c": true}, {"t": "Chia sẻ (Share)", "c": false}, {"t": "Mở bằng (Open with)", "c": false}]}, {"ch": 6, "type": "mc", "n": 9, "q": "Khi gửi một tệp tin có dung lượng rất lớn qua email mà vượt quá giới hạn đính kèm, giải pháp tốt nhất là gì?", "o": [{"t": "Chia nhỏ tệp thành hàng chục email khác nhau", "c": false}, {"t": "Tải tệp lên Google Drive/OneDrive rồi gửi đường liên kết (link) chia sẻ qua email", "c": true}, {"t": "Nén tệp nhiều lần", "c": false}, {"t": "Chuyển sang dùng đĩa CD để gửi thư tay", "c": false}]}, {"ch": 6, "type": "mc", "n": 10, "q": "Chia sẻ tệp tin hoặc thư mục trên mạng trực tuyến đem lại lợi ích chính nào?", "o": [{"t": "Làm giảm dung lượng của tệp tin gốc", "c": false}, {"t": "Tạo môi trường cộng tác, giúp nhiều người cùng làm việc và chia sẻ tài nguyên dễ dàng", "c": true}, {"t": "Tự động mã hóa tệp tin ngăn chặn hacker", "c": false}, {"t": "Chuyển đổi định dạng tệp sang PDF", "c": false}]}, {"ch": 6, "type": "tf", "n": 11, "q": "Đánh giá các phát biểu sau về dịch vụ lưu trữ trực tuyến (Google Drive, OneDrive, Dropbox...):", "o": [{"t": "Người dùng luôn bắt buộc phải trả phí thì mới có thể sử dụng bất kỳ dịch vụ lưu trữ đám mây nào.", "c": false}, {"t": "Dữ liệu lưu trữ trên đám mây có thể được truy cập và đồng bộ từ nhiều thiết bị khác nhau (điện thoại, máy tính bảng, máy tính cá nhân).", "c": true}, {"t": "Nếu máy tính bị hỏng ổ cứng, dữ liệu đã được đồng bộ lên đám mây vẫn an toàn và có thể khôi phục lại.", "c": true}, {"t": "Các dịch vụ lưu trữ đám mây hiện nay có thể đồng bộ và truy cập dữ liệu bình thường mà không cần kết nối Internet.", "c": false}]}, {"ch": 6, "type": "tf", "n": 12, "q": "Khi thực hiện chia sẻ tệp tin và thư mục trên Google Drive cho người khác, các nhận định sau đây đúng hay sai?", "o": [{"t": "Người được cấp quyền \"Người chỉnh sửa\" (Editor) có thể thay đổi nội dung của tệp tin.", "c": true}, {"t": "Quyền \"Người nhận xét\" (Commenter) cho phép người nhận thay đổi và chỉnh sửa trực tiếp vào nội dung gốc của văn bản.", "c": false}, {"t": "Bạn có thể tạo một đường liên kết (link) và thiết lập quyền để bất kỳ ai có liên kết đó đều có thể xem tài liệu.", "c": true}, {"t": "Một tệp tin trên Google Drive chỉ có thể được chia sẻ cho tối đa một người duy nhất.", "c": false}]}]};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const S = { ch:'all', type:'all', view:'focus', shuffle:true, reveal:false, wrongOnly:false, idx:0, streak:0 };
+let all = [], list = [];
+let wrong = new Set(store.get('tin11.wrong', []));
+const LET = ['A','B','C','D'];
+
+function shuffled(a){
+  a = a.slice();
+  for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+const LOCK = /^(tất cả|cả |không có )/i;
+function makeOpts(q){
+  const o = q.o.map(x => ({ t:x.t, c:x.c }));
+  if(!S.shuffle) return o;
+  if(q.type === 'tf') return shuffled(o);
+  const locked = o.filter(x => LOCK.test(x.t)), free = o.filter(x => !LOCK.test(x.t));
+  return shuffled(free).concat(locked);
+}
+function regen(){
+  const base = S.shuffle ? shuffled(DATA.qs) : DATA.qs;
+  all = base.map(q => ({
+    id: q.ch + '-' + q.type + '-' + q.n, ch:q.ch, type:q.type, q:q.q,
+    opts: makeOpts(q), a: q.type === 'tf' ? [null,null,null,null] : null, seen:false
+  }));
+  S.streak = 0;
+  applyFilters();
+}
+function applyFilters(){
+  list = all.filter(x =>
+    (S.ch === 'all' || x.ch === +S.ch) &&
+    (S.type === 'all' || x.type === S.type) &&
+    (!S.wrongOnly || wrong.has(x.id)));
+  S.idx = 0;
+}
+function status(x){
+  if(x.type === 'mc'){
+    if(x.a != null) return x.opts[x.a].c ? 'ok' : 'bad';
+    return x.seen ? 'seen' : 'todo';
+  }
+  const n = x.a.filter(v => v != null).length;
+  if(n === 0) return x.seen ? 'seen' : 'todo';
+  if(n < 4) return 'part';
+  return x.a.every((v, i) => v === x.opts[i].c) ? 'ok' : 'bad';
+}
+const isDone = x => { const s = status(x); return s === 'ok' || s === 'bad' || s === 'seen'; };
+const answerText = x => { const i = x.opts.findIndex(o => o.c); return LET[i] + '. ' + x.opts[i].t; };
+
+/* ---------- render ---------- */
+function renderChaps(){
+  const items = [['all','Tất cả',''], ...Object.keys(DATA.titles).map(k => [k, 'Bài ' + k, DATA.titles[k]])];
+  $('#chaps').innerHTML = items.map(([k, big, name]) =>
+    `<button class="chap" data-act="ch" data-v="${k}" aria-pressed="${String(S.ch) === String(k)}">${big}${name ? `<small>${esc(name)}</small>` : ''}</button>`).join('');
+}
+function renderControls(){
+  const seg = (act, cur, opts) => `<div class="seg" role="group">${opts.map(([v, l]) =>
+    `<button data-act="${act}" data-v="${v}" aria-pressed="${cur === v}">${l}</button>`).join('')}</div>`;
+  $('#controls').innerHTML =
+    seg('type', S.type, [['all','Mọi dạng'],['mc','Trắc nghiệm ABCD'],['tf','Đúng – Sai']]) +
+    seg('view', S.view, [['focus','Từng câu'],['list','Cuộn danh sách']]) +
+    `<button class="sw" data-act="shuffle" aria-pressed="${S.shuffle}"><i></i>Xáo trộn</button>` +
+    `<button class="sw" data-act="reveal" aria-pressed="${S.reveal}"><i></i>Hiện sẵn đáp án</button>` +
+    `<span class="spacer"></span>` +
+    `<button class="btn warn" data-act="wrong" aria-pressed="${S.wrongOnly}">Ôn câu sai (${wrong.size})</button>` +
+    `<button class="btn" data-act="reset">Làm lại</button>`;
+}
+function renderProgress(){
+  const n = list.length, cols = Math.max(1, Math.ceil(Math.sqrt(n)));
+  let pins = '';
+  for(let s of ['t','b','l','r']) for(let i = 0; i < 9; i++){
+    const p = 8 + i * (84 / 8);
+    pins += `<i class="pin ${s}" style="${s === 't' || s === 'b' ? 'left' : 'top'}:calc(${p}% - 4px)"></i>`;
+  }
+  $('#chip').innerHTML = pins + '<i class="dot"></i>' + (n ?
+    `<div class="cells" style="grid-template-columns:repeat(${cols},1fr)">${list.map((x, i) =>
+      `<button class="cell ${status(x)}${S.view === 'focus' && i === S.idx ? ' cur' : ''}" data-act="jump" data-i="${i}" title="Câu ${i + 1}" aria-label="Câu ${i + 1}"></button>`).join('')}</div>`
+    : '<div class="nocells">Không có câu nào</div>');
+  const ok = list.filter(x => status(x) === 'ok').length, bad = list.filter(x => status(x) === 'bad').length;
+  const left = list.filter(x => !isDone(x)).length;
+  $('#stats').innerHTML =
+    `<div class="stat"><b>${ok}</b><span>Đúng</span></div><div class="stat"><b>${bad}</b><span>Sai</span></div><div class="stat"><b>${left}</b><span>Còn lại</span></div><div class="stat"><b>${S.streak}</b><span>Chuỗi đúng</span></div>`;
+  const w = document.querySelector('[data-act="wrong"]'); if(w) w.textContent = `Ôn câu sai (${wrong.size})`;
+  document.body.dataset.ch = S.ch;
+}
+const CHECK = '<svg viewBox="0 0 24 24"><path d="M4 12.500l5 5L20 6.500"/></svg>';
+const CROSS = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function cardHTML(x, i, enter){
+  const rev = x.seen || (x.type === 'mc' ? x.a != null : x.a.every(v => v != null));
+  const show = rev || S.reveal;
+  const st = status(x);
+  let body = '', res = '';
+  if(x.type === 'mc'){
+    body = `<div class="opts">${x.opts.map((o, k) => {
+      let cls = '', mark = '';
+      if(show && o.c){ cls = 'ok'; mark = CHECK + '<span>' + (x.a === k ? 'Chính xác' : 'Đáp án đúng') + '</span>'; }
+      else if(x.a === k){ cls = 'bad'; mark = CROSS + '<span>Bạn chọn</span>'; }
+      else if(show) cls = 'dim';
+      return `<button class="opt ${cls}" data-act="opt" data-id="${x.id}" data-i="${k}" aria-disabled="${rev}"><span class="L">${LET[k]}</span><span class="T">${esc(o.t)}</span><span class="M">${mark}</span></button>`;
+    }).join('')}</div>`;
+    if(st === 'ok') res = '<span class="res ok">Chính xác!</span>';
+    else if(st === 'bad') res = `<span class="res bad">Chưa đúng. Đáp án là ${esc(answerText(x))}</span>`;
+    else if(st === 'seen') res = `<span class="res">Đáp án: ${esc(answerText(x))}</span>`;
+  } else {
+    body = `<div class="tf">${x.opts.map((o, k) => {
+      const a = x.a[k], answered = a != null, sh = answered || x.seen || S.reveal;
+      const rcls = answered ? (a === o.c ? 'ok' : 'bad') : '';
+      const btn = v => {
+        let c = '';
+        if(sh && o.c === v) c = 'ok'; else if(answered && a === v) c = 'bad'; else if(sh) c = 'dim';
+        return `<button class="${c}" data-act="tf" data-id="${x.id}" data-i="${k}" data-v="${v}" aria-disabled="${answered || x.seen}">${v ? 'Đúng' : 'Sai'}</button>`;
+      };
+      const verdict = answered ? `<div class="verdict">${a === o.c ? 'Chính xác' : 'Chưa đúng. Ý này ' + (o.c ? 'ĐÚNG' : 'SAI')}</div>` : (x.seen ? `<div class="verdict">Ý này ${o.c ? 'ĐÚNG' : 'SAI'}</div>` : '');
+      return `<div class="row ${rcls}"><span class="k">${'abcd'[k]}</span><div class="s">${esc(o.t)}${verdict}</div><div class="yn">${btn(true)}${btn(false)}</div></div>`;
+    }).join('')}</div>`;
+    const n = x.a.filter(v => v != null).length;
+    if(n === 4){ const g = x.a.filter((v, k) => v === x.opts[k].c).length; res = `<span class="res ${g === 4 ? 'ok' : 'bad'}">Đúng ${g}/4 ý</span>`; }
+  }
+  return `<article class="card${rev ? ' done' : ''}${enter ? ' enter' : ''}" id="c-${x.id}">
+    <div class="chead"><span class="num">${i + 1}</span><span class="of">/ ${list.length}</span><span class="tag">Bài ${x.ch}</span><span class="tag">${x.type === 'mc' ? 'Trắc nghiệm ABCD' : 'Đúng – Sai'}</span></div>
+    <p class="q">${esc(x.q)}</p>${body}
+    <div class="cfoot" aria-live="polite">${rev ? '' : '<button class="btn" data-act="show" data-id="' + x.id + '">Hiện đáp án</button>'}${res}</div>
+  </article>`;
+}
+function summaryHTML(){
+  const ok = list.filter(x => status(x) === 'ok').length, bad = list.filter(x => status(x) === 'bad');
+  const seen = list.filter(x => status(x) === 'seen').length, todo = list.filter(x => ['todo','part'].includes(status(x))).length;
+  const scored = ok + bad.length, pct = scored ? Math.round(ok / scored * 100) : 0;
+  const msg = !scored ? 'Chưa có câu nào được chấm. Hãy bấm chọn đáp án.' :
+    pct >= 90 ? 'Rất vững. Chỉ cần xem lại vài câu còn sai.' : pct >= 70 ? 'Khá tốt. Ôn lại các câu sai rồi làm lại.' : 'Cần ôn thêm. Bấm "Ôn câu sai" để luyện đúng chỗ còn yếu.';
+  return `<section class="sum" aria-label="Kết quả">
+    <div class="pct">${pct}%</div>
+    <p><b>${ok}/${scored}</b> câu đúng${seen ? ` · ${seen} câu chỉ xem đáp án` : ''}${todo ? ` · ${todo} câu chưa làm` : ''}. ${msg}</p>
+    ${bad.length ? `<ul class="wl">${bad.slice(0, 8).map(x => `<li><b>${esc(x.q)}</b><span>${x.type === 'mc' ? esc(answerText(x)) : 'Câu Đúng – Sai: xem lại các ý đã sai'}</span></li>`).join('')}</ul>` : ''}
+    <div class="acts"><button class="btn primary" data-act="reset">Làm lại, xáo trộn mới</button>${wrong.size ? '<button class="btn" data-act="wrong-go">Ôn các câu sai</button>' : ''}${S.view === 'focus' ? '<button class="btn" data-act="first">Về câu đầu</button>' : ''}</div>
+  </section>`;
+}
+function renderStage(enter){
+  const st = $('#stage');
+  if(!list.length){
+    st.innerHTML = `<div class="none">${S.wrongOnly ? 'Chưa có câu sai nào được lưu. Làm bài rồi quay lại đây để ôn lại những câu đã sai.' : 'Không có câu nào khớp bộ lọc.'}</div>`;
+    return;
+  }
+  if(S.view === 'list'){
+    st.innerHTML = `<div class="list">${list.map((x, i) => cardHTML(x, i, false)).join('')}</div>` + summaryHTML();
+    return;
+  }
+  if(S.idx >= list.length){ st.innerHTML = summaryHTML(); celebrate(); return; }
+  const last = S.idx === list.length - 1;
+  st.innerHTML = cardHTML(list[S.idx], S.idx, enter) +
+    `<div class="nav"><button class="btn" data-act="prev"${S.idx === 0 ? ' aria-disabled="true"' : ''}>← Câu trước</button>
+     <button class="btn primary" data-act="next">${last ? 'Xem kết quả' : 'Câu sau →'}</button>
+     <span class="hint">${S.idx + 1} / ${list.length}</span></div>`;
+}
+function renderAll(enter){ renderChaps(); renderControls(); renderProgress(); renderStage(enter); }
+function rerenderCard(x){
+  const i = list.indexOf(x);
+  if(S.view === 'list'){
+    const el = document.getElementById('c-' + x.id);
+    if(el) el.outerHTML = cardHTML(x, i, false);
+  } else renderStage(false);
+  renderProgress();
+}
+function burst(el, n){
+  if(!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const cols = ['#FFC93C','#0B5CFF','#F2511F','#14A44D','#FF5A5F','#00C2A8'];
+  for(let i = 0; i < n; i++){
+    const b = document.createElement('i'); b.className = 'bit';
+    const a = Math.random() * 6.283, d = 60 + Math.random() * 120;
+    b.style.cssText = `left:${cx}px;top:${cy}px;background:${cols[i % cols.length]};--x:${Math.cos(a) * d}px;--y:${Math.sin(a) * d + 40}px;--r:${Math.random() * 540 - 270}deg`;
+    document.body.appendChild(b); setTimeout(() => b.remove(), 900);
+  }
+}
+let celebrated = false;
+function celebrate(){
+  const sc = list.filter(x => ['ok','bad'].includes(status(x)));
+  if(sc.length && sc.filter(x => status(x) === 'ok').length / sc.length >= .8) setTimeout(() => burst($('.sum .pct'), 40), 150);
+}
+
+/* ---------- actions ---------- */
+function afterScore(x){
+  const s = status(x);
+  if(s === 'bad'){ wrong.add(x.id); S.streak = 0; }
+  else if(s === 'ok'){ wrong.delete(x.id); S.streak++; }
+  store.set('tin11.wrong', [...wrong]);
+}
+function answerMC(x, k){
+  if(x.a != null || x.seen) return;
+  x.a = k; afterScore(x); rerenderCard(x);
+  const q = `#c-${CSS.escape(x.id)}`;
+  const f = document.querySelector(`${q} [data-i="${k}"]`);
+  if(x.opts[k].c){ if(f){ f.classList.add('pop'); burst(f.querySelector('.L'), 16); } }
+  if(f) f.focus({preventScroll:true});
+}
+function answerTF(x, k, v){
+  if(x.a[k] != null || x.seen) return;
+  x.a[k] = v;
+  if(x.a.every(z => z != null)) afterScore(x);
+  rerenderCard(x);
+  const f = document.querySelector(`#c-${CSS.escape(x.id)} [data-i="${k}"][data-v="${v}"]`);
+  if(f){ if(v === x.opts[k].c) burst(f, 10); f.focus({preventScroll:true}); }
+}
+function go(i, scroll){
+  S.idx = Math.max(0, Math.min(list.length, i));
+  renderProgress(); renderStage(true);
+  if(scroll) $('#stage').scrollIntoView({block:'start', behavior:'smooth'});
+}
+function setTheme(){
+  const root = document.documentElement;
+  const cur = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const nx = cur === 'dark' ? 'light' : 'dark';
+  root.dataset.theme = nx; store.set('tin11.theme', nx);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if(!b) return;
+  const a = b.dataset.act, byId = id => all.find(x => x.id === id);
+  if(a === 'opt') answerMC(byId(b.dataset.id), +b.dataset.i);
+  else if(a === 'tf') answerTF(byId(b.dataset.id), +b.dataset.i, b.dataset.v === 'true');
+  else if(a === 'show'){ const x = byId(b.dataset.id); x.seen = true; rerenderCard(x); }
+  else if(a === 'ch'){ S.ch = b.dataset.v; applyFilters(); renderAll(true); }
+  else if(a === 'type'){ S.type = b.dataset.v; applyFilters(); renderAll(true); }
+  else if(a === 'view'){ S.view = b.dataset.v; renderAll(true); }
+  else if(a === 'shuffle'){ S.shuffle = !S.shuffle; regen(); renderAll(true); }
+  else if(a === 'reveal'){ S.reveal = !S.reveal; renderAll(false); }
+  else if(a === 'wrong'){ S.wrongOnly = !S.wrongOnly; applyFilters(); renderAll(true); }
+  else if(a === 'wrong-go'){ S.wrongOnly = true; applyFilters(); renderAll(true); scrollTo({top:0, behavior:'smooth'}); }
+  else if(a === 'reset'){ regen(); renderAll(true); scrollTo({top:0, behavior:'smooth'}); }
+  else if(a === 'first') go(0, true);
+  else if(a === 'prev'){ if(S.idx > 0) go(S.idx - 1); }
+  else if(a === 'next') go(S.idx + 1, S.idx + 1 >= list.length);
+  else if(a === 'jump'){
+    const i = +b.dataset.i;
+    if(S.view === 'focus') go(i, true);
+    else { const el = document.getElementById('c-' + list[i].id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  }
+  else if(a === 'theme') setTheme();
+});
+document.addEventListener('keydown', e => {
+  if(S.view !== 'focus' || e.ctrlKey || e.metaKey || e.altKey) return;
+  if(e.key === 'ArrowRight'){ e.preventDefault(); go(S.idx + 1); return; }
+  if(e.key === 'ArrowLeft'){ e.preventDefault(); go(S.idx - 1); return; }
+  const x = list[S.idx]; if(!x || x.type !== 'mc') return;
+  const k = 'abcd'.indexOf(e.key.toLowerCase()), n = '1234'.indexOf(e.key);
+  const i = k >= 0 ? k : n; if(i >= 0 && e.key.length === 1) answerMC(x, i);
+});
+
+try{ const t = store.get('tin11.theme', null); if(t) document.documentElement.dataset.theme = t; }catch(e){}
+regen(); renderAll(false);
+</script>
+
+</body></html>
